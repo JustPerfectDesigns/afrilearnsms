@@ -1,0 +1,23 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import useLessonStore from "@/store/lessonStore";
+
+const LessonContext = createContext<{ lessons: Lesson[] } | undefined>(
+  undefined
+);
+
+const LessonProvider = ({ children }) => {
+  const { lessons } = useLessonStore();
+  const [lessonData, setLessonData] = useState<Lesson[]>(lessons);
+
+  useEffect(() => {
+    setLessonData(lessons);
+  }, [lessons]);
+
+  return (
+    <LessonContext.Provider value={{ lessons: lessonData }}>
+      {children}
+    </LessonContext.Provider>
+  );
+};
+
+export default LessonProvider;
